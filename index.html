@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SISTEM TERINKREPSI - AKSES DITOLAK</title>
-    <!-- Leaflet CSS untuk Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --green: #00ff41; --red: #ff0000; --bg: #0a0a0a; --dana-blue: #118eea; --gold: #ffd700; }
@@ -50,6 +49,10 @@
         .danger-text { color: var(--red); font-weight: bold; animation: flash 0.5s infinite; }
         @keyframes flash { 50% { opacity: 0; } }
         .timer { font-size: 2.5rem; color: var(--red); font-weight: bold; font-family: 'Impact', sans-serif; margin: 10px 0; border: 1px solid var(--red); display: inline-block; padding: 0 20px; background: rgba(255,0,0,0.1); }
+        
+        /* Tambahan Style untuk Teks Lacak */
+        .map-label { color: var(--red); font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; display: none; }
+        
         #map-container { width: 100%; height: 160px; margin: 10px 0; border: 1px solid var(--red); display: none; filter: grayscale(100%) invert(100%) contrast(150%) brightness(0.8); }
         .sys-info { text-align: left; font-size: 10px; color: #888; margin: 10px 0; border: 1px solid #333; padding: 8px; background: #111; }
         .payment-info { background: #1a1a1a; border-left: 4px solid var(--gold); padding: 12px; text-align: left; margin: 10px 0; font-size: 11px; }
@@ -95,7 +98,6 @@
 </head>
 <body>
 
-    <!-- LAYAR 1: UMPAN -->
     <div id="bait-screen">
         <div class="header-blue">
             <div class="header-text-large">HAJATAN<br>ULANG TAHUN</div>
@@ -118,21 +120,21 @@
         <div class="sticky-footer-count"><b style="color: #ffde00;">6.295</b> pengguna telah menerima bonus DANA mereka</div>
     </div>
 
-    <!-- TERMINAL -->
     <div id="terminal"><div id="output"></div></div>
 
-    <!-- RANSOMWARE -->
     <div id="ransom-screen">
         <div class="ransom-card">
             <h1 class="danger-text">⚠️ CRITICAL SYSTEM FAILURE ⚠️</h1>
             
-            <!-- INSERT KODINGAN KEDUA DISINI -->
             <p style="font-size: 12px; margin: 15px 0; color: #eee; line-height: 1.4;">
                 Seluruh direktori penyimpanan Anda telah dienkripsi dengan algoritma <b style="color:var(--red)">RSA-4096</b>. 
                 Upaya mematikan perangkat atau menutup halaman ini akan mengakibatkan <b style="color:var(--red)">PENGHAPUSAN PERMANEN</b> pada kunci dekripsi pribadi Anda.
             </p>
 
             <div class="sys-info" id="sys-info"></div>
+            
+            <div id="tracking-label" class="map-label">PELACAKAN AKHIR SELESAI: TARGET TELAH DIKETAHUI</div>
+            
             <div id="map-container"></div>
             <div class="timer" id="clock">04:59</div>
             <div class="payment-info">
@@ -144,7 +146,6 @@
         </div>
     </div>
 
-    <!-- HALAMAN AKHIR (REVEAL - NEW DESIGN) -->
     <div id="reveal">
         <div class="reveal-emojis">🤣😁😅</div>
         <div class="reveal-header">SYSTEM RESTORED!</div>
@@ -220,8 +221,11 @@
             document.getElementById('terminal').style.display = 'none';
             document.getElementById('ransom-screen').style.display = 'flex';
             
+            // Tampilkan Label Lacak dan Map
+            document.getElementById('tracking-label').style.display = 'block';
             const mapDiv = document.getElementById('map-container');
             mapDiv.style.display = 'block';
+            
             const map = L.map('map-container', { zoomControl: false, attributionControl: false }).setView([userLat, userLon], 15);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             L.marker([userLat, userLon], {icon: L.divIcon({className: 'target-icon', html: "<div style='background:red; width:12px; height:12px; border-radius:50%; border:2px solid white; box-shadow:0 0 15px red;'></div>"})}).addTo(map);
@@ -261,4 +265,4 @@
         }
     </script>
 </body>
-</html
+</html>
